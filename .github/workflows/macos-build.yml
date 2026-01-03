@@ -42,6 +42,12 @@ jobs:
       - name: Archive release binary
         run: |
           zip -j pdf_splitter_macos.zip dist/pdf_splitter_py38
+      - name: Create Git Tag
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
+          git tag pdfsplitter-macos-${{ github.run_id }}
+          git push origin pdfsplitter-macos-${{ github.run_id }}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
