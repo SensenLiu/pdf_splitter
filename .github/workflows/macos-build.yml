@@ -37,11 +37,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pdf_splitter-macos
-          path: dist/pdf_splitter_py38.py
+          path: dist/pdf_splitter_py38
 
       - name: Archive release binary
         run: |
-          zip -j pdf_splitter_macos.zip dist/pdf_splitter_py38.py
+          zip -j pdf_splitter_macos.zip dist/pdf_splitter_py38
 
       - name: Create release
         uses: softprops/action-gh-release@v1
