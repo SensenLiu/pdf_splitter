@@ -42,6 +42,9 @@ jobs:
       - name: Archive release binary
         run: |
           zip -j pdf_splitter_macos.zip dist/pdf_splitter_py38
+      - name: Set git remote with PAT
+        run: |
+          git remote set-url origin https://${{ secrets.GH_RELEASE_TOKEN }}@github.com/SensenLiu/pdf_splitter.git   
       - name: Create and push git tag
         run: |
           git config --global user.email "github-actions@github.com"
