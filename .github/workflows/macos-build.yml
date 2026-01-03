@@ -27,7 +27,7 @@ jobs:
 
       - name: Build binary with PyInstaller
         run: |
-          pyinstaller --onefile pdf_splitter.py
+          pyinstaller --onefile pdf_splitter_py38.py
         # 你的脚本名根据实际调整
 
       - name: List build files
