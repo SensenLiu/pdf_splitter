@@ -49,11 +49,11 @@ jobs:
           name: PDFSplitter for MacOS
           tag_name: pdfsplitter-macos-${{ github.run_id }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
 
       - name: Upload zip to release
         uses: softprops/action-gh-release@v1
         with:
           files: pdf_splitter_macos.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
