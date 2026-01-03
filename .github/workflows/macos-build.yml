@@ -1,0 +1,59 @@
+name: Build MacOS App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r requirements.txt
+
+      - name: Build binary with PyInstaller
+        run: |
+          pyinstaller --onefile pdf_splitter.py
+        # 你的脚本名根据实际调整
+
+      - name: List build files
+        run: ls dist
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdf_splitter-macos
+          path: dist/pdf_splitter
+
+      - name: Archive release binary
+        run: |
+          zip -j pdf_splitter_macos.zip dist/pdf_splitter
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: PDFSplitter for MacOS
+          tag_name: pdfsplitter-macos-${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload zip to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: pdf_splitter_macos.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
