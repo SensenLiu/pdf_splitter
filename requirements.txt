@@ -1,0 +1,8 @@
+pdfplumber==0.10.2
+PyPDF2==2.12.1
+pillow>=6.2.2
+pytesseract>=0.3.8
+pdf2image>=1.16.3
+
+# 注意：Mac系统需 Homebrew 安装 poppler 和 tesseract
+# brew install poppler tesseract
