@@ -28,7 +28,6 @@ jobs:
       - name: Build binary with PyInstaller
         run: |
           pyinstaller --onefile pdf_splitter_py38.py
-        # 你的脚本名根据实际调整
 
       - name: List build files
         run: ls dist
@@ -42,26 +41,28 @@ jobs:
       - name: Archive release binary
         run: |
           zip -j pdf_splitter_macos.zip dist/pdf_splitter_py38
+
       - name: Set git remote with PAT
         run: |
-          git remote set-url origin https://${{ secrets.GH_RELEASE_TOKEN }}@github.com/SensenLiu/pdf_splitter.git   
+          git remote set-url origin https://${{ secrets.GH_RELEASE_TOKEN }}@github.com/SensenLiu/pdf_splitter.git
+
       - name: Create and push git tag
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions"
           git tag pdfsplitter-macos-${{ github.run_id }}
           git push origin pdfsplitter-macos-${{ github.run_id }}
-      - name: Create release
+
+      - name: List tags for debug
+        run: |
+          git tag -l
+          git ls-remote --tags origin
+
+      - name: Create release and upload zip
         uses: softprops/action-gh-release@v1
         with:
           name: PDFSplitter for MacOS
-          tag_name:  pdfsplitter-macos-${{ github.run_id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-
-      - name: Upload zip to release
-        uses: softprops/action-gh-release@v1
-        with:
+          tag_name: pdfsplitter-macos-${{ github.run_id }}
           files: pdf_splitter_macos.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
